@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import Banner from "../components/Banner";
 import Services from "../components/Services";
-import LandingPage from '../components/LandingPage';
+import LandingPage from "../components/LandingPage";
 import '../LandingPage.css';
 
 export default function Home() {
@@ -15,9 +15,7 @@ export default function Home() {
           <Link to="/rooms" className="btn-primary">
             our rooms
           </Link>
-         
         </Banner>
-       
       </Hero>
       <LandingPage/>
       <Services />

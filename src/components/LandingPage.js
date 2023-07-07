@@ -1,42 +1,68 @@
 import React from 'react';
-import "../"
+import { useState } from 'react';
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from "firebase/database";
 const LandingPage = () => {
+  const [valid, setvalid] = useState(true)
+  const [hide, sethide] = useState(true)
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      const book_date = document.getElementById('book-date');
+      const book_time = document.getElementById('book-time');
+      
+      const leave_date = document.getElementById('leave-date');
+      const leave_time = document.getElementById('leave-time');
+
+      if(!book_date.value || !book_time.value || !leave_date.value || !leave_time.value){
+          alert('Please fill all the fields');
+      }else{
+          writeUserData();
+      function writeUserData() {
+          const db = getDatabase();
+          set(ref(db, 'data/'), {
+          bookingdate: book_date.value,
+          bookingtime: book_time.value,
+          leave_date: leave_date.value,
+          leave_time: leave_time.value,
+          });
+      }
+          alert('Your booking has been made');
+          const BookPageDiv = document.querySelector('.box');
+          const container = document.querySelector('.container');
+          setvalid(!valid + BookPageDiv.classList.add("show"));
+          sethide(!hide + container.classList.add("hide"));
+      }
+  }
   return (
-    <div className="landing-page">
-      <div className="booking-container">
-        
-        <p>Book your stay now:</p>
-        <form className="booking-form">
-          <div className="form-group">
-            <label className="form-group label" htmlFor="checkInDate">Check-in:</label>
-            <input className="form-group input" type="date" id="checkInDate" required />
+    <>
+      <div className="container">
+    <div className="content">
+      <div className="text">Book Now</div>
+      <div className="form2">
+        <div className="txt">Date & Time you would like to Stay</div>
+        <form action="" onSubmit={handleSubmit}>
+          <div className="inputData">
+            <input type="date" name="" id="book-date"/>
           </div>
-          <div className="form-group">
-            <label className="form-group label" htmlFor="checkOutDate">Check-out:</label>
-            <input className="form-group input"  type="date" id="checkOutDate" required />
+          <div className="inputData">
+            <input type="time" name="" id="book-time" />
           </div>
-          <div className="form-group">
-            <label className="form-group label" htmlFor="numAdults">Adults:</label>
-            <input className="form-group input"  type="number" id="numAdults" min="1" required />
+          <div className="txt">Date & Time you would like to leave</div>
+          <div className="inputData">
+            <input type="date" name="" id="leave-date" />
           </div>
-          <div className="form-group">
-            <label className="form-group label" htmlFor="numChildren">Children:</label>
-            <input className="form-group input"  type="number" id="numChildren" min="0" required />
+          <div className="inputData">
+            <input type="time" name="" id="leave-time" />
           </div>
-          <div className="form-group">
-            <label className="form-group label" htmlFor="roomType">Room Type:</label>
-            <select className="form-group select " id="roomType" required>
-              <option value="">Select Room Type</option>
-              <option value="standard">Standard Room</option>
-              <option value="deluxe">Deluxe Room</option>
-              <option value="suite">Suite</option>
-            </select>
+          <div className="book">
+              <button type="submit">Book</button>
           </div>
-          <button type="submit">Book Now</button>
         </form>
       </div>
     </div>
-  );
+  </div>
+    </>
+);
 };
 
 export default LandingPage;
